@@ -2,9 +2,15 @@
 class tools {
 	//文件下载
 	function download($filedir){  //$filedir为路径+文件名
+		$filedir=$_GET["filedir"];
+		$value=explode('\\',$filedir);
+		$filename = $value[count($value)-1];
+		$filedir = iconv('utf-8','gb2312',$filedir);
 		if(is_file($filedir)) {
 			header("Content-Type: application/force-download");
-			header("Content-Disposition: attachment; filename=".basename($filedir));
+			header("Content-Disposition: attachment; filename=".$filename);
+			ob_clean();
+			flush();
 			readfile($filedir);
 			exit;
 		}else{
